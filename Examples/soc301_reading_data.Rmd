@@ -1,0 +1,226 @@
+---
+title: "Reading data: Review"
+subtitle: "Soc 301: Quantified-Self"
+author: "[PUT YOUR NAME HERE]"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+---
+
+# Goals
+
+- Open a project file in R
+- Read data of various types into R
+- Describe the sources of datasets
+- Knit an Rmarkdown document to html
+
+# 0: Opening this file
+
+You'll download all of the lab files for this class as `.zip` files from [github](https://github.com/zalmquist/QuantifiedSelfLab). To use them, you'll have to unzip them into their own directory (not a temporary directory that lets you explore the files inside), and upload the data and RMD file. 
+
+
+# 1: Rectangular data
+
+The most common type of data we'll see is rectangular data, which is organized into a table of rows and columns. If data come to us in another form we'll often want to make them rectangular.
+
+In the same directory as this `.Rmd` file and the project file, there's a directory called `data`. Inside, there's a comma-separated values (CSV) file called `seattle_airbnb.csv`. This contains data about 100 Airbnb listings from Seattle. 
+
+These data come from Inside Airbnb, http://insideairbnb.com/. Go to the website and have a look at the About, Behind, and Get the Data pages. *Use what you read to answer the questions below. Just type your answers below the questions.*
+  
+  **Question 1.1: What was the _context_ of this data's production, ie:** 
+   - Who created this data set?
+   - How did they do it?
+   - Where did the data come from?
+  
+  **Question 1.2: What were the original purpose of this data? Is that the same as the purpose of the person who collected it? As our purposes?**  
+  
+  
+## 2: Setup
+
+R doesn't come with everything we need loaded by default. Before we do anything else, we need to load a *package*. Packages contain specialized functions and data that we can use to do nifty things. The package we'll use is called "tidyverse." It's a collection of packages for data manipulation, exploration, and visualization.  
+
+You can read more about the tidyverse here: [https://www.tidyverse.org/]([https://www.tidyverse.org/)
+
+## If doing this on your own machine
+
+**Stop**
+
+Are you on the RStudio Server? Yes. You can ignore this, if you ever run into a case where you don't have the package email the instructor.
+
+**Stop**
+
+If a package hasn't been installed on your machine, you'll need to install it. For instance, you'd type `install.packages("tidyverse")` into the *console*. You only need to do this once for each R installation, but every session you want to use a package, you'll have to load it. 
+
+Rmarkdown, when used in R studio, gives us some advantages to doing data science. For one, it lets us run code in "code chunks". Code chunks let us incorporate code into documents that also have text and eventually visualizations, like this one. They're very useful for creating interactive documents and for testing out new code. The output from a code chunk shows up right below it (and often also in the console). You can run the code in a chunk by pressing the green arrow in the top right of the chunk. You can also run just one line of code by placing your cursor on that line and pressing `CMD` + `Return` on Mac or `CTRL` + `Return` on Windows or linux.
+
+You can make a new code chunk by using the insert menu above, typing the backtics by hand, or by pressing `CMD`+`option`+`i` on a Mac or `CTRL` + `ALT` + `i` on windows or linux.
+
+
+**Always load tidyverse**
+
+```{r}
+library(tidyverse)
+```
+
+
+
+## 3: Importing data
+
+To use data inside R, we first have to import, or *read*, that data into our environment. The chunk below reads the example data we'll use for this module.
+
+```{r}
+airbnb_data <- read_csv("data/seattle_airbnb.csv")
+```
+
+When we do this, we assign the values of the data to a variable, `airbnb_data`, using the arrow (`<-`) operator. When you're typing inside of a code chunk (that's where the code goes), you can use `alt` plus `the minus key` to quickly type the arrow. The object we create is called a dataframe.
+
+**Question 3.1: What is the role of each component in the above line of code?**
+ - airbnb_data: the variable name we used for the data frame
+ - `<-` :
+ - read_csv() :
+ - "data/seattle_airbnb.csv" :
+
+
+## 4: Looking at the data
+
+You can print the dataframe to the console by typing the name of the object. Our object was called 'airbnb_data.' 
+
+**Question 4.1 Go ahead and type that into the console.**
+
+You can also look at the entire data set using RStudio's built-in viewer. To use that, we use the function 'View().' We can run that command from the console, or from a code chunk like the one below: 
+
+**Question 4.2 Follow the instructions in the code block and run it**
+
+```{r}
+# "un-comment" the line below this one, by removing the '#' and the space
+# View(airbnb_data)
+```
+
+The `head()` function shows you the first six rows of a data frame. 
+
+**Question 4.3 Use the head function in the code chunk below to show the first rows of the airbnb_data.**
+
+```{r}
+
+```
+
+**Question 4.4: `head` shows the first 6 rows by default. Change the following code to show the first 10 rows:** 
+
+```{r}
+head(airbnb_data, n = 6)
+```
+
+What if you want to look at the *last* several rows of a data frame instead of the first several rows?
+
+Let's read the documentation for `head` by typing `?head` into the console.
+
+**Question 4.5 Based on what you found out, show the last 5 rows of airbnb_data**
+
+```{r}
+
+```
+
+
+You can extract a single column by name using `$`. Type the name of the dataframe (airbnb) first, then `$` and finally the name of the column. 
+
+**Question 4.6 Use `$` to display the 'price' column**
+
+```{r}
+
+```
+
+# 5: Hierarchical data
+
+Data isn't always a single, flat table. Sometimes it's nested or hierarchical.
+
+`colors.json` is a file in JSON format. This is a common format for web data. We'll need to load another package, 'jsonlite', in order to read it. 
+
+**Ignore this unless you are on your own machine**
+*Type `install.packages("jsonlite")` in the console to install it.*
+**Ignore this unless you are on your own machine**
+
+**Question 5.1 Change the code below so that we load the jsonlite package and make a new object called `json_data` by using the `read_json()` function to read the file "data/colors.json".**
+
+```{r}
+library(tidyverse)
+airbnb_data <- read_csv("data/seattle_airbnb.csv")
+```
+
+When you do, it becomes a different type of R object, a *list*: 
+
+```{r}
+str(json_data)
+```
+
+It's a little trickier, but you can use `[[]]` and `$` to extract pieces of this data. For example, the 5th color: 
+
+```{r}
+json_data$colors[[5]]
+```
+
+**Question 5.2: Display the information for the color red.**
+
+```{r}
+
+```
+
+
+# 6. Knitting your output and saving your work
+
+RMarkdown documents can be "knit" to produce different kinds of output. The simplest kind is an HTML file, like a web page. Knitting output is a good way to see the results of your work. It also helps you check for errors. To knit, press the "Knit" button just below the name of this document.
+
+**Question 6.1: Knit your output to an HTML file. Try opening the new `soc225_reading_data.html` file in a web browser.**
+
+You should save your work somewhere you can easily access it again, such as your UDrive.
+
+# Challenge: Excel worksheets
+
+In the data folder, there is an Excel spreadsheet, `airbnb.xlsx`. It contains data for three cities (Seattle, Boston, Chicago) in separate sheets. Use the internet to find a package that will allow you to read in all of this data. If you read in each sheet separately, combine them into one data frame.
+
+# Just for fun: Image data
+
+Images are data too, and R can import them as well. If you have extra time, check out the vignette for the `magick` package: 
+
+https://cran.r-project.org/web/packages/magick/vignettes/intro.html
+
+```{r}
+# install.packages("magick")
+# library(magick)
+# cat <- image_read("data/Black_white_cat_on_fence.jpg")
+# cat
+# image_flip(cat)
+```
+
+# Google Documents
+
+```{r}
+dat<-read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQhdIzrnjQXPv-TCpNRAGoSQj3L4RWI6_y2bmkuw_xUeCd3uB2kFlJMRIvnDxC8r-v9XG57184U0ydt/pub?gid=0&single=true&output=csv")
+dat
+```
+
+*Google Documents Problem*
+
+Create a spreadsheet in g-suite. Publish to web as csv and display it in the html markdown file (i.e. print it).
+
+```{r}
+## Your Code
+```
+
+
+# Hints
+
+4.1 The console is the same place where we typed 'install.packages' before. It should have a `>` and a cursor waiting for your input.
+
+4.4 You'll need to change the value of n from 6 to 10.
+
+5.1 Make sure you've installed the jsonlite package. Then your code should look like this:
+
+```
+library(jsonlite)
+json_data <- read_json("data/colors.json")
+```
+
+5.2 `json_data$colors[[5]]` gave us the info for 'yellow', so let's try changing the 5 to other numbers to see if we can find 'red'.  
+
+6.1 To avoid common errors while knitting output, make sure that you've removed or commented out any line of code with `View()` or `install.packages()` in it. **Note, we should never be installing a package if on the server**

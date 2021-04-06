@@ -1,5 +1,5 @@
 ---
-title: "In Class Example"
+title: "Lab 1"
 ---
 
 ```{r global_options, include=FALSE}
@@ -8,16 +8,16 @@ library(ggplot2)
 opts_chunk$set(fig.align="center", fig.height=4, fig.width=5.5)
 ```
 
-*Name*
+*Enter your name and EID here*
 
-*Based on* [SDS 375 Data Visualization in R](https://wilkelab.org/SDS375/).
+**This homework is due on Jan. 25, 2021 at 11:00pm. Please submit as a pdf file on Canvas.**
 
 
-**Problem 1: (4 pts)** Demonstrate basic command of Markdown by creating a bulleted list with three items, a numbered list with three items, and a sentence that has one word in bold and one word in italics.
+**Problem 1:** Demonstrate basic command of Markdown by creating a bulleted list with three items, a numbered list with three items, and a sentence that has one word in bold and one word in italics.
 
 *Your text goes here.*
 
-**Problem 2: (3 pts)** The `economics` dataset contains various time series data from the US economy:
+**Problem 2:** The `economics` dataset contains various time series data from the US economy:
 
 ```{r}
 economics
